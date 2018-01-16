@@ -35,7 +35,6 @@
     "onLanguage:typescript",
     "onCommand:styledJsx.applyCodeAction"
   ],
-  "enableProposedApi": true,
   "main": "./client/out/extension",
   "scripts": {
     "compile": "npm run compile:client && npm run compile:server",
