@@ -56,7 +56,7 @@ connection.onInitialize((params: InitializeParams): InitializeResult => {
 	scopedSettingsSupport = hasClientCapability('workspace.configuration');
 	let capabilities: ServerCapabilities & CPServerCapabilities = {
 		// Tell the client that the server works in FULL text document sync mode
-		textDocumentSync: documents.syncKind,
+		textDocumentSync: documents.syncKind, 
 		completionProvider: snippetSupport ? { resolveProvider: false } : undefined,
 		hoverProvider: true,
 		documentSymbolProvider: true,
@@ -64,7 +64,7 @@ connection.onInitialize((params: InitializeParams): InitializeResult => {
 		definitionProvider: true,
 		documentHighlightProvider: true,
 		codeActionProvider: true,
-		renameProvider: true,
+		renameProvider: false,
 		colorProvider: true
 	};
 	return { capabilities };
