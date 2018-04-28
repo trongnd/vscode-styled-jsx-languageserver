@@ -78,10 +78,6 @@ I believe that it supports all features which native CSS language server provide
 
 ![classname-completion](https://thumbs.gfycat.com/WelllitQuestionableGavial-size_restricted.gif)
 
-- Symbol highlight and renaming
-
-![symbols](https://thumbs.gfycat.com/RipeCarefulHoneycreeper-size_restricted.gif)
-
 - Color picker
 
 ![color-picker](https://thumbs.gfycat.com/UnimportantGrossFlatfish-size_restricted.gif)
@@ -109,6 +105,12 @@ I believe that it supports all features which native CSS language server provide
 - Extensions is synced to the `CSS` settings in vscode. If settings separation is necessary - PRs are welcome.
 
 - Can be problems with multilined expressions
+
+## TODO
+
+- Update [css language server](https://github.com/Microsoft/vscode-css-languageservice)
+
+- Add an ability to rename symbols in styled-jsx template literal
 
 ## Plans
 
