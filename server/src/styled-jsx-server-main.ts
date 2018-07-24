@@ -13,7 +13,7 @@ import { TextDocument } from 'vscode-languageserver-types';
 import { ConfigurationRequest } from 'vscode-languageserver-protocol/lib/protocol.configuration';
 import { DocumentColorRequest, ColorServerCapabilities as CPServerCapabilities, ColorPresentationRequest } from 'vscode-languageserver-protocol/lib/protocol.colorProvider';
 
-import { getCSSLanguageService, LanguageSettings, Stylesheet } from 'vscode-css-languageservice';
+import { getSCSSLanguageService, LanguageSettings, Stylesheet } from 'vscode-css-languageservice';
 import { getLanguageModelCache } from './language-model-cache';
 
 import { getStyledJsx, getStyledJsxUnderCursor } from './styled-jsx-utils'
@@ -70,7 +70,7 @@ connection.onInitialize((params: InitializeParams): InitializeResult => {
 	return { capabilities };
 });
 
-const cssLanguageService = getCSSLanguageService();
+const cssLanguageService = getSCSSLanguageService();
 
 let documentSettings: { [key: string]: Thenable<LanguageSettings | undefined> } = {};
 // remove document settings on close
