@@ -63,8 +63,11 @@ export function isStyledJsxTag(token: ts.Node) {
 			// Check that opening element has 'jsx' with optional 'global' attribute.
 			if (firstAttributeName === 'jsx' || (firstAttributeName === 'global' && secondAttributeName === 'jsx')) {
 				const nextToken = (ts as any).findNextToken(openingElement, openingElement.parent);
-				// Check if there is a '{'
-				if (nextToken.kind === ts.SyntaxKind.FirstPunctuation) {
+				if (typeof nextToken === 'undefined') {
+					// old jsx whitespace bug, propably a {` on the next line
+					return true;
+				}
+				if (nextToken && nextToken.kind === ts.SyntaxKind.FirstPunctuation) {
 					const anotherNextToken = (ts as any).findNextToken(nextToken, nextToken.parent);
 					// Check if there is a beginning of the template string. This is neccessary to skip things like <style jsx>{styles}</style>
 					if (anotherNextToken.kind === ts.SyntaxKind.FirstTemplateToken || anotherNextToken.kind === ts.SyntaxKind.TemplateHead) {
@@ -77,7 +80,7 @@ export function isStyledJsxTag(token: ts.Node) {
 	return false;
 }
 
-export function findStyledJsxTaggedTemplate(textDocument: TextDocument, cursorOffsets: number[]) : StyledJsxTaggedTemplate[] {
+export function findStyledJsxTaggedTemplate(textDocument: TextDocument, cursorOffsets: number[]): StyledJsxTaggedTemplate[] {
 	const source = ts.createSourceFile('tmp', textDocument.getText(), ts.ScriptTarget.Latest, true, ts.ScriptKind.JSX | ts.ScriptKind.TSX);
 
 	const result: StyledJsxTaggedTemplate[] = [];
@@ -121,11 +124,11 @@ export function replaceAllWithSpacesExceptCss(textDocument: TextDocument, styled
 		// if there is several CSS parts
 		if (i + 1 < styledJsxTaggedTemplates.length) {
 			// code that is in between that CSS parts
-			result  += text.slice(styledJsxTaggedTemplates[i].end, styledJsxTaggedTemplates[i+1].start).replace(/./g, ' ');
+			result += text.slice(styledJsxTaggedTemplates[i].end, styledJsxTaggedTemplates[i + 1].start).replace(/./g, ' ');
 		}
 	}
 	// code that goes after CSS
-	result += text.slice(styledJsxTaggedTemplates[styledJsxTaggedTemplates.length-1].end, text.length).replace(/./g, ' ');
+	result += text.slice(styledJsxTaggedTemplates[styledJsxTaggedTemplates.length - 1].end, text.length).replace(/./g, ' ');
 
 	const cssDocument = TextDocument.create(textDocument.uri.toString(), 'css', textDocument.version, result);
 	const stylesheet = stylesheets.get(cssDocument);
@@ -138,12 +141,12 @@ export function replaceAllWithSpacesExceptCss(textDocument: TextDocument, styled
 
 export function getStyledJsx(document: TextDocument, stylesheets: LanguageModelCache<Stylesheet>): StyledJsx | undefined {
 	const styledJsxOffsets = getApproximateStyledJsxOffsets(document);
-		if (styledJsxOffsets.length > 0) {
-			const styledJsxTaggedTemplates = findStyledJsxTaggedTemplate(document, styledJsxOffsets);
-			if (styledJsxTaggedTemplates.length > 0) {
-				return replaceAllWithSpacesExceptCss(document, styledJsxTaggedTemplates, stylesheets);
-			}
+	if (styledJsxOffsets.length > 0) {
+		const styledJsxTaggedTemplates = findStyledJsxTaggedTemplate(document, styledJsxOffsets);
+		if (styledJsxTaggedTemplates.length > 0) {
+			return replaceAllWithSpacesExceptCss(document, styledJsxTaggedTemplates, stylesheets);
 		}
+	}
 	return undefined;
 }
 
