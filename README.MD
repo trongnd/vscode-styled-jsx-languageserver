@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-The extension requires that the [vscode-styled-jsx](https://marketplace.visualstudio.com/items?itemName=blanu.vscode-styled-jsx) syntax highliter is installed. The extension will not work without it, because the `vscode-styled-jsx` converts template literals to language which can be detected by language server.
+The extension requires that the [vscode-styled-jsx-plugin-scss](https://marketplace.visualstudio.com/items?itemName=bfanger.vscode-styled-jsx-plugin-scss) syntax highliter is installed. The extension will not work without it, because the `vscode-styled-jsx` converts template literals to language which can be detected by language server.
 
 ## How it works
 

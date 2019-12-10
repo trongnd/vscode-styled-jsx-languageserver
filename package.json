@@ -2,7 +2,7 @@
   "name": "vscode-styled-jsx-languageserver",
   "displayName": "styled-jsx Language Server",
   "description": "Language server for styled-jsx",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "author": {
     "name": "Andrew Razumovsky",
     "email": "grimones00@gmail.com",
@@ -15,7 +15,7 @@
   },
   "publisher": "AndrewRazumovsky",
   "engines": {
-    "vscode": "^1.25.0"
+    "vscode": "^1.40.0"
   },
   "repository": {
     "type": "git",
@@ -41,15 +41,15 @@
     "vscode:prepublish": "npm run compile"
   },
   "dependencies": {
-    "typescript": "^2.2.1",
-    "vscode-css-languageservice": "^3.0.9-next.19",
-    "vscode-languageclient": "^4.3.0",
-    "vscode-languageserver": "^4.3.0",
-    "vscode-languageserver-protocol": "^3.9.0",
-    "vscode-nls": "^3.2.4"
+    "vscode-css-languageservice": "^4.0.2",
+    "vscode-languageclient": "^5.2.1",
+    "vscode-languageserver": "^5.2.1",
+    "vscode-languageserver-protocol": "^3.14.1",
+    "vscode-nls": "^4.1.1"
   },
   "devDependencies": {
-    "@types/node": "^9.3.0",
-    "vscode": "^1.1.18"
+    "@types/node": "^12.12.17",
+    "typescript": "^3.7.3",
+    "vscode": "^1.1.36"
   }
 }
