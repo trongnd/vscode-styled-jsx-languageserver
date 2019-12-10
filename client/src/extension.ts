@@ -7,11 +7,10 @@
 import * as path from 'path';
 
 // vscode.d.ts from https://github.com/Microsoft/vscode/blob/master/src/vs/vscode.d.ts
-import { languages, window, commands, ExtensionContext, TextDocument, ColorInformation, ColorPresentation, Color, Range, Position, CompletionItem, CompletionItemKind, TextEdit, SnippetString } from 'vscode';
+import { languages, window, commands, ExtensionContext, Range, Position, CompletionItem, CompletionItemKind, TextEdit, SnippetString } from 'vscode';
 import { LanguageClient, LanguageClientOptions, ServerOptions, TransportKind } from 'vscode-languageclient';
 
 import { ConfigurationFeature } from 'vscode-languageclient/lib/configuration';
-import { DocumentColorRequest, DocumentColorParams, ColorPresentationRequest, ColorPresentationParams } from 'vscode-languageserver-protocol/lib/protocol';
 
 import * as nls from 'vscode-nls';
 let localize = nls.loadMessageBundle();
@@ -55,36 +54,6 @@ export function activate(context: ExtensionContext) {
 
 	client.onReady().then(_ => {
 		client.code2ProtocolConverter.asPosition(window.activeTextEditor!.selection.active);
-		// register color provider
-		context.subscriptions.push(languages.registerColorProvider(documentSelector, {
-			provideDocumentColors(document: TextDocument): Thenable<ColorInformation[]> {
-				let params: DocumentColorParams = {
-					textDocument: client.code2ProtocolConverter.asTextDocumentIdentifier(document)
-				};
-				return client.sendRequest(DocumentColorRequest.type, params).then(symbols => {
-					return symbols.map(symbol => {
-						let range = client.protocol2CodeConverter.asRange(symbol.range);
-						let color = new Color(symbol.color.red, symbol.color.green, symbol.color.blue, symbol.color.alpha);
-						return new ColorInformation(range, color);
-					});
-				});
-			},
-			provideColorPresentations(color: Color, context: any): ColorPresentation[] | Thenable<ColorPresentation[]> {
-				let params: ColorPresentationParams = {
-					textDocument: client.code2ProtocolConverter.asTextDocumentIdentifier(context.document),
-					color,
-					range: client.code2ProtocolConverter.asRange(context.range)
-				};
-				return client.sendRequest(ColorPresentationRequest.type, params).then(presentations => {
-					return presentations.map(p => {
-						let presentation = new ColorPresentation(p.label);
-						presentation.textEdit = p.textEdit && client.protocol2CodeConverter.asTextEdit(p.textEdit);
-						presentation.additionalTextEdits = p.additionalTextEdits && client.protocol2CodeConverter.asTextEdits(p.additionalTextEdits);
-						return presentation;
-					});
-				});
-			}
-		}));
 	});
 
 	const regionCompletionRegExpr = /^(\s*)(\/(\*\s*(#\w*)?)?)?/;
